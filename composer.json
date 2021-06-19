@@ -13,7 +13,8 @@
     "bitterdev/bitter_theme": "dev-master",
     "ext-simplexml": "*",
     "ext-json": "*",
-    "symfony/property-access": "^5.3"
+    "symfony/property-access": "^5.3",
+    "gajus/dindent": "^2.0"
   },
   "config": {
     "preferred-install": "dist",
