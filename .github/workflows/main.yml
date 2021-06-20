@@ -14,7 +14,7 @@ jobs:
           php composer-setup.php
           php -r "unlink('composer-setup.php');"
           php composer.phar clear-cache
-          php composer.phar config --global github-oauth.github.com $GITHUB_TOKEN
+          php composer.phar config --global github-oauth.github.com ${GITHUB_TOKEN}
           php composer.phar upgrade
           php composer.phar install
           rm -rf deploy_data
