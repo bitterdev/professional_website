@@ -7,16 +7,18 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
+        
+      - name: Install dependencies
+        uses: php-actions/composer@v6
+        with:
+          ssh_key: ${{ secrets.ssh_key }}
+          ssh_key_pub: ${{ secrets.ssh_key_pub }}
       - name: Build Release
         run: |
           php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');"
           php -r "if (hash_file('sha384', 'composer-setup.php') === '756890a4488ce9024fc62c56153228907f1545c228516cbf63f885e036d37e9a59d27d63f46af1d4d07ee0f76181c7d3') { echo 'Installer verified'; } else { echo 'Installer corrupt'; unlink('composer-setup.php'); } echo PHP_EOL;"
           php composer-setup.php
           php -r "unlink('composer-setup.php');"
-          php composer.phar clear-cache
-          php composer.phar config --global github-oauth.github.com ${GITHUB_TOKEN}
-          php composer.phar upgrade
-          php composer.phar install
           rm -rf deploy_data
           mkdir deploy_data
           cp -R public/* deploy_data/
