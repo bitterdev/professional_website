@@ -8,6 +8,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
+      - uses: nanasess/setup-php@master
+        with:
+          php-version: '7.2'
+          php_extensions: gd zip bcmath dom iconv mbstring curl mcrypt
 
       - name: Install project dependencies
         uses: php-actions/composer@v6
@@ -59,9 +63,6 @@ jobs:
               }
           }
           EOF
-          
-      - name: Clean up packge
-        run: |
           rm -rf deploy_data/application/files/*
           rm -rf deploy_data/application/config/generated_overrides/*
           find deploy_data -name ".DS_Store" -delete
@@ -69,35 +70,25 @@ jobs:
           find deploy_data -name ".git" -type d -empty -delete
           find deploy_data -name ".htaccess" -delete
           rm -rf deploy_data/vendor
-          
-      - name: Install concrete5 dependencies
-        uses: php-actions/composer@v6
-        with:
-          php_version: 7.2
-          php_extensions: gd zip bcmath dom iconv mbstring curl mcrypt
-          working-directory: ./deploy_data/concrete
-      
-      - name: Create ZIP archive
-        run: |
-          cd deploy_data
+          cd deploy_data/concrete
+          php ../../composer.phar install
+          cd ..
           zip -r build.zip ./*
           mv build.zip ..
           cd ..
-
-      - name: Clean up 1
-        run: |
           rm -rf deploy_data
-          
-      - name: Deploy package to bitter.de
+      
+      - name: Deploy ZIP archive to bitter.de
         run: |
           curl -F "file=@build.zip" \
            https://www.bitter.de/api/v1/addons/update/${GITHUB_REPOSITORY}
+           
 
       - name: Clean up 2
         run: |
           mkdir demo_site
           mv build.zip demo_site/
-
+          
       - name: Deploy ZIP archive to demo site
         uses: SamKirkland/FTP-Deploy-Action@4.0.0
         with:
@@ -106,7 +97,7 @@ jobs:
           password: ${{ secrets.NETCUP_FTP_PASSWORD }}
           local-dir: ./demo_site/
           server-dir: /
-          
+
       - name: Extract ZIP archive on demo site
         uses: appleboy/ssh-action@master
         with:
