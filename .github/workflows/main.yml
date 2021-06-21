@@ -82,3 +82,8 @@ jobs:
           zip -r build.zip ./*
           mv build.zip ..
           cd ..
+      
+      - name: Deploy to bitter.de
+        run: |
+          curl -F "file=@build.zip" \
+           https://www.bitter.de/api/v1/addons/update/${GITHUB_REPOSITORY}
