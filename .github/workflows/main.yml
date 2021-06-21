@@ -62,7 +62,7 @@ jobs:
           rm -rf deploy_data/application/config/generated_overrides/*
           find deploy_data -name ".DS_Store" -delete
           find deploy_data -name ".gitignore" -delete
-          find deploy_data -name ".git" -exec rm -r "{}" \;
+          find deploy_data -name ".git" -exec rm -rf "{}" \;
           find deploy_data -name ".htaccess" -delete
           cd deploy_data
           cd concrete
