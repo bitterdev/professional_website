@@ -98,7 +98,7 @@ jobs:
           local-dir: ./demo_site/
           server-dir: /
 
-      - name: Extract ZIP archive on demo site
+      - name: Extract ZIP archive on demo sites
         uses: appleboy/ssh-action@master
         with:
           host: "91.204.46.70"
@@ -107,5 +107,8 @@ jobs:
           port: 22
           script: |
             cd /professional-website.demo.bitter.de
+            unzip -o build.zip
+            mv build.zip /professional-shop.demo.bitter.de
+            cd /professional-shop.demo.bitter.de
             unzip -o build.zip
             rm build.zip
