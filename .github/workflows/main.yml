@@ -90,10 +90,10 @@ jobs:
         run: |
           curl -i -X POST -H "Content-Type: multipart/form-data" -F \
             'data=@build.zip' \
-            https://bitter.de/index.php/api/v1/addons/update/professional_website
+            https://bitter.de/api/v1/addons/update/professional_website
           curl -i -X POST -H "Content-Type: multipart/form-data" -F \
             'data=@build.zip' \
-            https://bitter.de/index.php/api/v1/addons/update/professionelle_webseite
+            https://bitter.de/api/v1/addons/update/professionelle_webseite
 
       - name: Clean up 2
         run: |
