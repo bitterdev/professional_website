@@ -94,13 +94,13 @@ jobs:
 
       - name: Deploy ZIP archive to bitter.de
         run: |
-          curl -i -v --http1.1 -X POST -H "Content-Type: multipart/form-data" -F \
+          curl -i -X POST -H "Content-Type: multipart/form-data" -F \
             'file=@build.zip' \
-            https://www.bitter.de/api/v1/addons/update/professional_website || true
-          curl -i -v --http1.1 -X POST -H "Content-Type: multipart/form-data" -F \
+            https://www.bitter.de/api/v1/addons/update/professional_website
+          curl -i -X POST -H "Content-Type: multipart/form-data" -F \
             'file=@build.zip' \
-            https://www.bitter.de/api/v1/addons/update/professionelle_webseite || true
-
+            https://www.bitter.de/api/v1/addons/update/professionelle_webseite
+            
       - name: Deploy to production
         uses: burnett01/rsync-deployments@4.1
         with:
